@@ -25,7 +25,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/gcardone/junidecode.git</url>
+        <connection>scm:git:git://github.com:sps/junidecode.git</connection>
+        <developerConnection>scm:git:git@github.com:sps/junidecode.git</developerConnection>
+        <url>https://github.com/sps/junidecode</url>
     </scm>
 
     <developers>
