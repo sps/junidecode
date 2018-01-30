@@ -2,10 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>gcardone</groupId>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
+    <groupId>com.github.sps.junidecode</groupId>
     <artifactId>junidecode</artifactId>
+    <version>0.3-SNAPSHOT</version>
+
     <packaging>jar</packaging>
-    <version>0.2</version>
+
     <name>junidecode</name>
     <licenses>
         <license>
@@ -36,30 +45,54 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.5</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>1.4.1</version>
+            <executions>
+              <execution>
+                <id>enforce</id>
+                <configuration>
+                  <rules>
+                    <DependencyConvergence />
+                  </rules>
+                </configuration>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.directory}/assembly.manifest</manifestFile>
@@ -68,7 +101,9 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>project</descriptorRef>
@@ -95,7 +130,7 @@
                                 <replace dir="${project.build.directory}">
                                     <include name="assembly.manifest"/>
                                     <replacefilter token="#build#" value="${buildLabel}"/>
-                                    <replacefilter token="#version#" value="${version}"/>
+                                    <replacefilter token="#version#" value="${project.version}"/>
                                     <replacefilter token="#user.name#" value="${user.name}"/>
                                     <replacefilter token="#today#" value="${TODAY}"/>
                                     <replacefilter token="#mainclass#" value="gcardone.junidecode.App"/>
